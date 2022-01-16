@@ -6,7 +6,7 @@ services:
       context: .
       target: symfony_php
       args:
-        SYMFONY_VERSION: ${SYMFONY_VERSION:-5.4}
+        SYMFONY_VERSION: ${SYMFONY_VERSION:-}
         SKELETON: ${SKELETON:-symfony/skeleton}
         STABILITY: ${STABILITY:-stable}
     restart: unless-stopped
