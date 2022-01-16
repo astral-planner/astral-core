@@ -18,16 +18,3 @@ jobs:
         uses: robvanderleek/create-issue-branch@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-branches:
-  - label: enhancement
-    name: develop
-    prefix: feature/
-  - label: bug
-    name: develop
-    prefix: bugfix/
-  - label: hotfix
-    name: main
-    prefix: hotfix/
-
-branchName:  '#${issue.number}-${issue.title}'
