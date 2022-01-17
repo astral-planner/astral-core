@@ -13,6 +13,7 @@
         "symfony/dotenv": "5.4.*",
         "symfony/flex": "^1.17|^2",
         "symfony/framework-bundle": "5.4.*",
+        "symfony/phpunit-bridge": "^6.0",
         "symfony/runtime": "5.4.*",
         "symfony/yaml": "5.4.*"
     },
@@ -20,7 +21,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "pestphp/pest-plugin": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
@@ -64,5 +66,8 @@
             "require": "5.4.*",
             "docker": true
         }
+    },
+    "require-dev": {
+        "pestphp/pest": "^1.21"
     }
 }
