@@ -3,12 +3,14 @@ name: CI
 on:
     pull_request:
 
+env:
+    DATABASE_URL: "postgres://test:test@localhost:5432/test"
+    LETS_ENCRYPT_MAIL: ${{ secrets.LETS_ENCRYPT_MAIL }}
+
 jobs:
     build:
         name: Docker build
         runs-on: ubuntu-latest
-        env:
-          DATABASE_URL: $DATABSE_URL
         steps:
             - name: Checkout
               uses: actions/checkout@v2
