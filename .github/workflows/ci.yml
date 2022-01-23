@@ -4,7 +4,7 @@ on:
     pull_request:
 
 env:
-    DATABASE_URL: "postgres://test:test@localhost:5432/test"
+    DATABASE_URL: "postgres://test:test@database:5432/test"
     LETS_ENCRYPT_MAIL: ${{ secrets.LETS_ENCRYPT_MAIL }}
 
 jobs:
@@ -20,6 +20,9 @@ jobs:
               
             - name: Start services
               run: docker-compose up --build -d
+              env:
+                LETS_ENCRYPT_MAIL: ${{ env.LETS_ENCRYPT_MAIL }}
+                DATABASE_URL: ${{ env.DATABASE_URL }}
               
             - name: Wait for services
               run: |
