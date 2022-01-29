@@ -96,6 +96,12 @@ ENV SYMFONY_VERSION ${SYMFONY_VERSION}
 # Download the Symfony skeleton and leverage Docker cache layers
 RUN composer create-project "${SKELETON} ${SYMFONY_VERSION}" . --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-interaction;
 ###> recipes ###
+###> doctrine/doctrine-bundle ###
+RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
+	docker-php-ext-install -j$(nproc) pdo_pgsql; \
+	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
+	apk del .pgsql-deps
+###< doctrine/doctrine-bundle ###
 ###< recipes ###
 
 COPY . .
@@ -122,7 +128,14 @@ RUN xcaddy build \
 
 FROM caddy:${CADDY_VERSION} AS symfony_caddy
 
+ARG UID=1000
+ARG GID=1000
+ENV UID ${UID}
+ENV GID ${GID}
+
 WORKDIR /srv/app
+
+RUN chown ${UID}:${GID} -R /srv/app
 
 COPY --from=dunglas/mercure:v0.11 /srv/public /srv/mercure-assets/
 COPY --from=symfony_caddy_builder /usr/bin/caddy /usr/bin/caddy

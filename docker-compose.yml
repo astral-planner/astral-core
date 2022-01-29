@@ -9,6 +9,7 @@ services:
         SYMFONY_VERSION: ${SYMFONY_VERSION:-}
         SKELETON: ${SKELETON:-symfony/skeleton}
         STABILITY: ${STABILITY:-stable}
+        DATABASE_URL: ${DATABASE_URL:-}
     restart: unless-stopped
     volumes:
       - php_socket:/var/run/php
@@ -55,23 +56,28 @@ services:
         published: ${HTTP3_PORT:-443}
         protocol: udp
 
-  db:
-    image: postgres
+# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
+###> symfony/mercure-bundle ###
+###< symfony/mercure-bundle ###
+
+###> doctrine/doctrine-bundle ###
+  database:
+    image: postgres:${POSTGRES_VERSION:-13}-alpine
     ports:
       - "5432:5432"
     depends_on:
       - php
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PWD}
+      POSTGRES_DB: ${DB_NAME:-app}
+      # You should definitely change the password in production
+      POSTGRES_PASSWORD: ${DB_PWD:-ChangeMe}
+      POSTGRES_USER: ${DB_USER:-symfony}
     volumes:
       - ./docker/db/data:/var/lib/postgresql/data:rw
     restart: unless-stopped
-
-# Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
-###> symfony/mercure-bundle ###
-###< symfony/mercure-bundle ###
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      # - ./docker/db/data:/var/lib/postgresql/data:rw
+###< doctrine/doctrine-bundle ###
 
 volumes:
   php_socket:

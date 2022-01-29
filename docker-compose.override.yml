@@ -12,6 +12,8 @@ services:
       # - /srv/app/var
     environment:
       APP_ENV: dev
+      UID: ${UID:-1000}
+      GID: ${GID:-1000}
 
   caddy:
     volumes:
@@ -20,3 +22,9 @@ services:
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
+
+###> doctrine/doctrine-bundle ###
+  database:
+    ports:
+      - "5432"
+###< doctrine/doctrine-bundle ###
