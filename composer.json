@@ -73,6 +73,7 @@
     },
     "require-dev": {
         "pestphp/pest": "^1.21",
-        "symfony/maker-bundle": "^1.36"
+        "symfony/maker-bundle": "^1.36",
+        "symplify/easy-coding-standard": "^10.0"
     }
 }
