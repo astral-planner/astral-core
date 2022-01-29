@@ -15,6 +15,7 @@
 !.gitkeep
 .idea
 docker/db/data
+/.ecs_cache
 
 ###> phpunit/phpunit ###
 /phpunit.xml

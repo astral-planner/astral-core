@@ -37,6 +37,9 @@ jobs:
       - name: Symfony Check Vulnerabilities
         run: symfony check:security
 
+      - name: Static Analysis
+        run: ./vendor/bin/ecs check
+
       - name: Lint Doctrine entities
         run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
