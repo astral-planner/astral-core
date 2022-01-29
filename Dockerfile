@@ -6,8 +6,6 @@
 # https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
 ARG PHP_VERSION=8.0
 ARG CADDY_VERSION=2
-ARG UID=$(id -u)
-ARG GID=$(id -g)
 
 # "php" stage
 FROM php:${PHP_VERSION}-fpm-alpine AS symfony_php
@@ -130,9 +128,14 @@ RUN xcaddy build \
 
 FROM caddy:${CADDY_VERSION} AS symfony_caddy
 
-RUN chown ${UID}:${GID} -R /srv/app
+ARG UID=1000
+ARG GID=1000
+ENV UID ${UID}
+ENV GID ${GID}
 
 WORKDIR /srv/app
+
+RUN chown ${UID}:${GID} -R /srv/app
 
 COPY --from=dunglas/mercure:v0.11 /srv/public /srv/mercure-assets/
 COPY --from=symfony_caddy_builder /usr/bin/caddy /usr/bin/caddy
