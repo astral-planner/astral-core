@@ -20,9 +20,15 @@ RUN apk add --no-cache \
 		gnu-libiconv \
 	;
 
+RUN apk add --no-cache bash
+
 # install gnu-libiconv and set LD_PRELOAD env to make iconv work fully on Alpine image.
 # see https://github.com/docker-library/php/issues/240#issuecomment-763112749
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
+
+RUN set -xe \
+	&& apk add --no-cache --virtual .php-deps \
+    make
 
 ARG APCU_VERSION=5.1.21
 RUN set -eux; \
@@ -79,6 +85,15 @@ ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
 
+ARG UID=1000
+ARG GID=1000
+ENV UID ${UID}
+ENV GID ${GID}
+
+RUN echo 'alias sf="php bin/console"' >> ~/.bashrc
+RUN echo 'alias pest="php vendor/bin/pest"' >> ~/.bashrc
+RUN echo 'alias ecs="php vendor/bin/ecs"' >> ~/.bashrc
+
 WORKDIR /srv/app
 
 # Allow to choose skeleton
@@ -118,6 +133,10 @@ VOLUME /srv/app/var
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
+RUN chown ${UID}:${GID} -R /srv/app
+
+RUN bash
+
 FROM caddy:${CADDY_VERSION}-builder-alpine AS symfony_caddy_builder
 
 RUN xcaddy build \
@@ -128,14 +147,7 @@ RUN xcaddy build \
 
 FROM caddy:${CADDY_VERSION} AS symfony_caddy
 
-ARG UID=1000
-ARG GID=1000
-ENV UID ${UID}
-ENV GID ${GID}
-
 WORKDIR /srv/app
-
-RUN chown ${UID}:${GID} -R /srv/app
 
 COPY --from=dunglas/mercure:v0.11 /srv/public /srv/mercure-assets/
 COPY --from=symfony_caddy_builder /usr/bin/caddy /usr/bin/caddy
