@@ -38,10 +38,10 @@ jobs:
         run: symfony check:security
 
       - name: Static Analysis
-        run: ./vendor/bin/ecs check
+        run: make scan
 
       - name: Lint Doctrine entities
         run: ./bin/console doctrine:schema:validate --skip-sync -vvv --no-interaction
 
-      - name: PHP Unit
-        run: ./vendor/bin/pest
+      - name: Tests
+        run: make test
