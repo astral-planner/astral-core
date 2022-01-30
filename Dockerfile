@@ -76,6 +76,15 @@ COPY docker/php/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 RUN chmod +x /usr/local/bin/docker-entrypoint
 
+###> recipes ###
+###> doctrine/doctrine-bundle ###
+RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
+	docker-php-ext-install -j$(nproc) pdo_pgsql; \
+	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
+	apk del .pgsql-deps
+###< doctrine/doctrine-bundle ###
+###< recipes ###
+
 VOLUME /var/run/php
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -84,15 +93,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 ENV PATH="${PATH}:/root/.composer/vendor/bin"
-
-ARG UID=1000
-ARG GID=1000
-ENV UID ${UID}
-ENV GID ${GID}
-
-RUN echo 'alias sf="php bin/console"' >> ~/.bashrc
-RUN echo 'alias pest="php vendor/bin/pest"' >> ~/.bashrc
-RUN echo 'alias ecs="php vendor/bin/ecs"' >> ~/.bashrc
 
 WORKDIR /srv/app
 
@@ -110,14 +110,6 @@ ENV SYMFONY_VERSION ${SYMFONY_VERSION}
 
 # Download the Symfony skeleton and leverage Docker cache layers
 RUN composer create-project "${SKELETON} ${SYMFONY_VERSION}" . --stability=$STABILITY --prefer-dist --no-dev --no-progress --no-interaction;
-###> recipes ###
-###> doctrine/doctrine-bundle ###
-RUN apk add --no-cache --virtual .pgsql-deps postgresql-dev; \
-	docker-php-ext-install -j$(nproc) pdo_pgsql; \
-	apk add --no-cache --virtual .pgsql-rundeps so:libpq.so.5; \
-	apk del .pgsql-deps
-###< doctrine/doctrine-bundle ###
-###< recipes ###
 
 COPY . .
 
@@ -130,11 +122,12 @@ RUN set -eux; \
 	chmod +x bin/console; sync
 VOLUME /srv/app/var
 
+RUN echo 'alias sf="php bin/console"' >> ~/.bashrc
+RUN echo 'alias pest="php vendor/bin/pest"' >> ~/.bashrc
+RUN echo 'alias ecs="php vendor/bin/ecs"' >> ~/.bashrc
+
 ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
-
-RUN chown ${UID}:${GID} -R /srv/app
-
 RUN bash
 
 FROM caddy:${CADDY_VERSION}-builder-alpine AS symfony_caddy_builder
