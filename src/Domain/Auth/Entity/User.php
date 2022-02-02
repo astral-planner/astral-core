@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $avatarPath = null;
 
     #[ORM\Column(type: Types::INTEGER)]
-    private int $status = 0;
+    private int $status = self::STATUS_INACTIVE;
 
     public function getEmail(): string
     {
