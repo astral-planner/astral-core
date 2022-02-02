@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Auth\Entity;
 
+use App\Domain\Shared\Trait\IdentifyableTrait;
 use App\Domain\Shared\Trait\TimestampableTrait;
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -14,28 +18,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public const STATUS_ACTIVE = 1;
     public const STATUS_BANNED = 2;
 
+    use IdentifyableTrait;
     use TimestampableTrait;
 
-    private ?int $id = null;
-
+    #[ORM\Column(type: Types::STRING, length: 255, unique: true)]
     private string $username = '';
 
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $plainPassword = null;
 
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $password = '';
 
+    #[Assert\Email(mode: Assert\Email::VALIDATION_MODE_HTML5)]
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $email = '';
 
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $role = Role::ROLE_USER;
 
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $avatarPath = null;
 
+    #[ORM\Column(type: Types::INTEGER)]
     private int $status = 0;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getEmail(): string
     {

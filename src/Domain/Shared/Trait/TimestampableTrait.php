@@ -4,10 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Shared\Trait;
 
+use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 trait TimestampableTrait
 {
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private \DateTimeInterface $createdAt;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
     public function getCreatedAt(): \DateTimeInterface
