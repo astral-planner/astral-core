@@ -17,6 +17,7 @@ use App\Tests\WebTestCase;
 
 // uses(Tests\TestCase::class)->in('Feature');
 uses(WebTestCase::class)->in('Http/Controller');
+uses()->in('Domain/Auth');
 
 /*
 |--------------------------------------------------------------------------
