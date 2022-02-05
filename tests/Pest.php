@@ -2,7 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Domain\Auth\Service\UserService;
+use App\Infrastructure\Adapter\RoleDoctrineRepository;
+use App\Infrastructure\Adapter\UserDoctrineRepository;
 use App\Tests\WebTestCase;
+use Hautelook\AliceBundle\PhpUnit\ReloadDatabaseTrait;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,7 +21,7 @@ use App\Tests\WebTestCase;
 
 // uses(Tests\TestCase::class)->in('Feature');
 uses(WebTestCase::class)->in('Http/Controller');
-uses()->in('Domain/Auth');
+uses(ReloadDatabaseTrait::class)->in('Domain/Auth/Unit');
 
 /*
 |--------------------------------------------------------------------------

@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\Entity]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     public const STATUS_INACTIVE = 0;
@@ -35,13 +36,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private string $email = '';
 
     #[ORM\Column(type: Types::STRING, length: 255)]
-    private string $role = Role::ROLE_USER;
-
-    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $avatarPath = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $status = self::STATUS_INACTIVE;
+
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: "users")]
+    private Role $role;
+
+    public function __construct(
+        string $username,
+        string $password,
+        string $plainPassword,
+        string $email,
+        ?Role $role,
+        ?string $avatarPath = null,
+        ?int $status = self::STATUS_INACTIVE
+    ) {
+        $this->username = $username;
+        $this->password = $password;
+        $this->plainPassword = $plainPassword;
+        $this->email = $email;
+        $this->role = $role;
+        $this->avatarPath = $avatarPath;
+        $this->status = $status;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
 
     public function getEmail(): string
     {
@@ -79,21 +100,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRole(): string
+    public function getRole(): Role
     {
         return $this->role;
     }
 
-    public function setRole(string $role): self
+    public function setRole(Role $role): self
     {
         $this->role = $role;
 
         return $this;
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
-        // TODO: Implement getRoles() method.
+        return [$this->getRole()->getRole()];
     }
 
     public function getPlainPassword(): ?string
@@ -108,9 +129,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
-        // TODO: Implement getPassword() method.
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
     }
 
     public function getSalt(): ?string
@@ -118,14 +146,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return null;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         $this->plainPassword = null;
     }
 
-    public function getUsername()
+    public function setUsername(string $username): self
     {
-        // TODO: Implement getUsername() method.
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->username;
     }
 
     public function __call(string $name, array $arguments)

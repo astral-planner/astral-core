@@ -1,4 +1,16 @@
 {
+    "dama/doctrine-test-bundle": {
+        "version": "6.7",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "56eaa387b5e48ebcc7c95a893b47dfa1ad51449c"
+        },
+        "files": [
+            "config/packages/test/dama_doctrine_test_bundle.yaml"
+        ]
+    },
     "doctrine/annotations": {
         "version": "1.13",
         "recipe": {
@@ -19,6 +31,9 @@
     },
     "doctrine/common": {
         "version": "3.2.1"
+    },
+    "doctrine/data-fixtures": {
+        "version": "1.5.2"
     },
     "doctrine/dbal": {
         "version": "3.3.0"
@@ -82,17 +97,53 @@
     "facade/ignition-contracts": {
         "version": "1.0.2"
     },
+    "fakerphp/faker": {
+        "version": "v1.19.0"
+    },
     "filp/whoops": {
         "version": "2.14.5"
     },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.5"
     },
+    "hamcrest/hamcrest-php": {
+        "version": "v2.0.1"
+    },
+    "hautelook/alice-bundle": {
+        "version": "2.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.1",
+            "ref": "ff94d76b2ec0c552b5d67d401f59ab8fd62f3d5f"
+        },
+        "files": [
+            "config/packages/dev/hautelook_alice.yaml",
+            "config/packages/test/hautelook_alice.yaml",
+            "fixtures/.gitignore"
+        ]
+    },
     "laminas/laminas-code": {
         "version": "4.5.1"
     },
+    "mockery/mockery": {
+        "version": "1.5.0"
+    },
     "myclabs/deep-copy": {
         "version": "1.10.2"
+    },
+    "nelmio/alice": {
+        "version": "3.10",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.2",
+            "ref": "0b9900ece737bec7752e4155c0164639dd9b0cb0"
+        },
+        "files": [
+            "config/packages/dev/nelmio_alice.yaml",
+            "config/packages/test/nelmio_alice.yaml"
+        ]
     },
     "nelmio/api-doc-bundle": {
         "version": "4.8",
@@ -118,6 +169,9 @@
     },
     "pestphp/pest-plugin": {
         "version": "v1.0.0"
+    },
+    "pestphp/pest-plugin-mock": {
+        "version": "v1.0.3"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
@@ -456,6 +510,15 @@
     },
     "symplify/easy-coding-standard": {
         "version": "10.0.19"
+    },
+    "theofidry/alice-data-fixtures": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "fe5a50faf580eb58f08ada2abe8afbd2d4941e05"
+        }
     },
     "theseer/tokenizer": {
         "version": "1.2.1"
