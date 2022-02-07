@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Astral\Infrastructure\Adapter\Doctrine;
 
-use Astral\Domain\Auth\Entity\User;
+use Astral\Domain\Auth\Model\User;
 use Astral\Domain\Auth\Port\UserRepositoryInterface;
 use Astral\Infrastructure\Orm\AbstractRepository;
 

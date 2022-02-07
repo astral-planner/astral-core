@@ -5,14 +5,21 @@ declare(strict_types=1);
 namespace Astral\Infrastructure\Http\Controller;
 
 use Astral\Application\Auth\CreateUserService;
+use Astral\Application\Dto\Auth\Response\Transformer\UserResponseDtoTransformer;
 use Astral\Domain\Auth\Entity\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class SecurityController extends AbstractController
+class SecurityApiController extends AbstractApiController
 {
+    public function __construct(
+        private UserResponseDtoTransformer $userResponseDtoTransformer,
+    )
+    {
+    }
+
     #[Route('/api/register', name: 'auth_register', methods: ['POST'])]
     public function register(
         Request $request,
@@ -31,9 +38,9 @@ class SecurityController extends AbstractController
             );
 
             $createUserService->createUser($user);
-
         } catch (\JsonException $e) {
         }
+
         return new JsonResponse();
     }
 }

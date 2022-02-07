@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Astral\Infrastructure\Adapter\Doctrine;
 
-use Astral\Domain\Auth\Entity\Role;
+use Astral\Domain\Auth\Model\Role;
 use Astral\Domain\Auth\Port\RoleRepositoryInterface;
 use Astral\Infrastructure\Orm\AbstractRepository;
 
@@ -15,9 +15,9 @@ class RoleRepository extends AbstractRepository implements RoleRepositoryInterfa
         return $this->find($id);
     }
 
-    public function findOneFromRoleName(string $roleName): ?Role
+    public function findOneFromCodeName(string $roleName): ?Role
     {
-        return $this->findOneBy(['role' => $roleName]);
+        return $this->findOneBy(['code' => $roleName]);
     }
 
     public function save(Role $role): void

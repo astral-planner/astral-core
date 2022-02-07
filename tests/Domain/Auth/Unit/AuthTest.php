@@ -6,8 +6,8 @@ namespace Astral\Tests\Domain\Unit\Auth;
 
 use Astral\Application\Auth\CreateRoleService;
 use Astral\Application\Auth\CreateUserService;
-use Astral\Domain\Auth\Entity\Role;
-use Astral\Domain\Auth\Entity\User;
+use Astral\Domain\Auth\Model\Role;
+use Astral\Domain\Auth\Model\User;
 use Astral\Infrastructure\Adapter\Doctrine\RoleRepository;
 
 it('should be able to create a user', function () {
@@ -41,7 +41,7 @@ test('a user should have an user role as default', function () {
         $role
     );
 
-    expect($user->getRole()->getRole())->toBe(Role::ROLE_USER);
+    expect($user->getRole()->getCode())->toBe(Role::ROLE_USER);
 });
 
 it('should be able to save a user in the database', function () {

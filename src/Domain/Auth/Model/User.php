@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Astral\Domain\Auth\Entity;
+namespace Astral\Domain\Auth\Model;
 
 use Astral\Domain\Shared\Trait\IdentifyableTrait;
 use Astral\Domain\Shared\Trait\TimestampableTrait;
@@ -10,7 +10,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -31,17 +30,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $password = '';
 
-    #[Assert\Email(mode: Assert\Email::VALIDATION_MODE_HTML5)]
     #[ORM\Column(type: Types::STRING, length: 255)]
     private string $email = '';
 
     #[ORM\Column(type: Types::STRING, length: 255)]
-    private ?string $avatarPath = null;
+    private ?string $avatarUrl = null;
 
     #[ORM\Column(type: Types::INTEGER)]
     private int $status = self::STATUS_INACTIVE;
 
-    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: "users")]
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'users')]
     private Role $role;
 
     public function __construct(
@@ -50,7 +48,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         string $plainPassword,
         string $email,
         ?Role $role,
-        ?string $avatarPath = null,
+        ?string $avatarUrl = null,
         ?int $status = self::STATUS_INACTIVE
     ) {
         $this->username = $username;
@@ -58,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->plainPassword = $plainPassword;
         $this->email = $email;
         $this->role = $role;
-        $this->avatarPath = $avatarPath;
+        $this->avatarUrl = $avatarUrl;
         $this->status = $status;
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
@@ -76,14 +74,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAvatarPath(): ?string
+    public function getAvatarUrl(): ?string
     {
-        return $this->avatarPath;
+        return $this->avatarUrl;
     }
 
-    public function setAvatarPath(?string $avatarPath): self
+    public function setAvqtarUrl(?string $avatarUrl): self
     {
-        $this->avatarPath = $avatarPath;
+        $this->avatarUrl = $avatarUrl;
 
         return $this;
     }
