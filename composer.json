@@ -6,7 +6,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.0.14",
+        "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/annotations": "^1.13",
@@ -41,12 +41,16 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "Astral\\Application\\": "src/Application/",
+            "Astral\\Domain\\": "src/Domain/",
+            "Astral\\Infrastructure\\": "src/Infrastructure/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "Astral\\Tests\\": "tests/"
         }
     },
     "replace": {

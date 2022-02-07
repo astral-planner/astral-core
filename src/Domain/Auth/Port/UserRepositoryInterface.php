@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Auth\Port;
+namespace Astral\Domain\Auth\Port;
 
-use App\Domain\Auth\Entity\User;
+use Astral\Domain\Auth\Entity\User;
 
 interface UserRepositoryInterface
 {

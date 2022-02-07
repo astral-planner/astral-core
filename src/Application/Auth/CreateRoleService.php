@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Application\Auth;
+namespace Astral\Application\Auth;
 
-use App\Domain\Auth\Entity\Role;
-use App\Domain\Auth\Port\RoleRepositoryInterface;
+use Astral\Domain\Auth\Entity\Role;
+use Astral\Domain\Auth\Port\RoleRepositoryInterface;
+use Astral\Infrastructure\Adapter\Doctrine\RoleRepository;
 
 class CreateRoleService
 {
     protected RoleRepositoryInterface $roleRepository;
 
-    public function __construct(RoleRepositoryInterface $roleRepository)
+    public function __construct(RoleRepository $roleRepository)
     {
         $this->roleRepository = $roleRepository;
     }

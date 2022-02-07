@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Adapter;
+namespace Astral\Infrastructure\Adapter\Doctrine;
 
-use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Port\UserRepositoryInterface;
-use App\Infrastructure\Orm\AbstractRepository;
+use Astral\Domain\Auth\Entity\User;
+use Astral\Domain\Auth\Port\UserRepositoryInterface;
+use Astral\Infrastructure\Orm\AbstractRepository;
 
-class UserDoctrineRepository extends AbstractRepository implements UserRepositoryInterface
+class UserRepository extends AbstractRepository implements UserRepositoryInterface
 {
     public function findOneOrNull(int $id): ?User
     {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Auth\Entity;
+namespace Astral\Domain\Auth\Entity;
 
-use App\Domain\Shared\Trait\IdentifyableTrait;
-use App\Domain\Shared\Trait\NameableTrait;
+use Astral\Domain\Shared\Trait\IdentifyableTrait;
+use Astral\Domain\Shared\Trait\NameableTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;

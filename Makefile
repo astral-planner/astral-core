@@ -1,6 +1,4 @@
 isDocker := $(shell docker info > /dev/null 2>&1 && echo 1)
-domain := "grafikart.fr"
-server := "grafikart"
 user := $(shell id -u)
 group := $(shell id -g)
 
@@ -19,6 +17,17 @@ else
 	php :=
 endif
 
+# Executables (local)
+DOCKER_COMP = docker-compose
+
+# Docker containers
+PHP_CONT = $(DOCKER_COMP) exec php
+
+# Executables
+PHP      = $(PHP_CONT) php
+COMPOSER = $(PHP_CONT) composer
+SYMFONY  = $(PHP_CONT) bin/console
+
 .PHONY: build-docker
 build-docker:
 	$(dc) pull --ignore-pull-failures
@@ -36,3 +45,16 @@ scan:
 
 scan-fix:
 	php ./vendor/bin/ecs check --fix
+
+## —— Inside php container commands 🎵 ———————————————————————————————————————————————————————————————
+composer: ## Run composer, pass the parameter "c=" to run a given command, example: make composer c='req symfony/orm-pack'
+	@$(eval c ?=)
+	@$(COMPOSER) $(c)
+
+db-reset: ## Reset database
+	@$(SYMFONY) doctrine:database:drop --force --if-exists -nq
+	@$(SYMFONY) doctrine:database:create -nq
+	@$(SYMFONY) doctrine:migrations:migrate -nq
+
+pest: ## Run tests
+	@$(PHP_CONT) vendor/bin/pest

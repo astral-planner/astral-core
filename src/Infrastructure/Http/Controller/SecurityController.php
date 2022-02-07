@@ -1,0 +1,39 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Astral\Infrastructure\Http\Controller;
+
+use Astral\Application\Auth\CreateUserService;
+use Astral\Domain\Auth\Entity\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
+class SecurityController extends AbstractController
+{
+    #[Route('/api/register', name: 'auth_register', methods: ['POST'])]
+    public function register(
+        Request $request,
+        CreateUserService $createUserService
+    ): Response {
+        try {
+            $data = \json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR);
+
+            dd($data);
+
+            $user = new User(
+                $data['username'],
+                $data['password'],
+                $data['password'],
+                $data['ROLE_USER']
+            );
+
+            $createUserService->createUser($user);
+
+        } catch (\JsonException $e) {
+        }
+        return new JsonResponse();
+    }
+}

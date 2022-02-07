@@ -1,0 +1,19 @@
+services:
+    _defaults:
+        autowire: true # Automatically injects dependencies in your services.
+        autoconfigure: false # Automatically registers your services as commands, event subscribers, etc.
+        public: true
+
+    Astral\Infrastructure\Orm\AbstractRepository: ~
+    Astral\Application\Auth\CreateUserService: ~
+    Astral\Application\Auth\CreateRoleService: ~
+    Astral\Application\Auth\FindRoleService: ~
+    
+    create_role.srv:
+        alias: Astral\Application\Auth\CreateRoleService
+
+    create_user.srv:
+        alias: Astral\Application\Auth\CreateUserService
+
+    find_role.srv:
+        alias: Astral\Application\Auth\FindRoleService

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Domain\Auth;
+namespace Astral\Tests\Domain\Unit\Auth;
 
-use App\Domain\Application\Auth\CreateRoleService;
-use App\Domain\Application\Auth\CreateUserService;
-use App\Domain\Auth\Entity\Role;
-use App\Domain\Auth\Entity\User;
-use App\Infrastructure\Adapter\RoleDoctrineRepository;
+use Astral\Application\Auth\CreateRoleService;
+use Astral\Application\Auth\CreateUserService;
+use Astral\Domain\Auth\Entity\Role;
+use Astral\Domain\Auth\Entity\User;
+use Astral\Infrastructure\Adapter\Doctrine\RoleRepository;
 
 it('should be able to create a user', function () {
     $role = new Role(
@@ -54,7 +54,7 @@ it('should be able to save a user in the database', function () {
         )
     ;
 
-    $mockRoleRepository = mock(RoleDoctrineRepository::class)
+    $mockRoleRepository = mock(RoleRepository::class)
         ->expect(
             findOneFromRoleName: fn ($roleName) => null
         )
@@ -85,12 +85,8 @@ it('should be able to save a user in the database', function () {
         )
     ;
 
-    expect($mockCreateUserService->createUser($user))->toBeInstanceOf(User::class);
-    expect($mockCreateUserService->createUser($user)->getRole())->toBeInstanceOf(Role::class);
-});
-
-it('should be able to register a user', function () {
-    $userDb = null;
+    $userDb = $mockCreateUserService->createUser($user);
 
     expect($userDb)->toBeInstanceOf(User::class);
-})->skip();
+    expect($userDb->getRole())->toBeInstanceOf(Role::class);
+});

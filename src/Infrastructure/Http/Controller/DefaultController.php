@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controller;
+namespace Astral\Infrastructure\Http\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;

@@ -2,16 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Application\Auth;
+namespace Astral\Application\Auth;
 
-use App\Domain\Auth\Entity\User;
-use App\Domain\Auth\Port\UserRepositoryInterface;
+use Astral\Domain\Auth\Entity\User;
+use Astral\Domain\Auth\Port\UserRepositoryInterface;
+use Astral\Infrastructure\Adapter\Doctrine\UserRepository;
 
 class CreateUserService
 {
     protected UserRepositoryInterface $userRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }

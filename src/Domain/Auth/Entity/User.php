@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Auth\Entity;
+namespace Astral\Domain\Auth\Entity;
 
-use App\Domain\Shared\Trait\IdentifyableTrait;
-use App\Domain\Shared\Trait\TimestampableTrait;
+use Astral\Domain\Shared\Trait\IdentifyableTrait;
+use Astral\Domain\Shared\Trait\TimestampableTrait;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
