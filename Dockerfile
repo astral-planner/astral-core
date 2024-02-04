@@ -1,5 +1,3 @@
-#syntax=docker/dockerfile:1.4
-
 # Versions
 FROM dunglas/frankenphp:1-php8.3-alpine AS frankenphp_upstream
 
@@ -36,9 +34,6 @@ RUN set -eux; \
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
-
-###> recipes ###
-###< recipes ###
 
 COPY --link frankenphp/conf.d/app.ini $PHP_INI_DIR/conf.d/
 COPY --link --chmod=755 frankenphp/docker-entrypoint.sh /usr/local/bin/docker-entrypoint
