@@ -1,7 +1,7 @@
 #syntax=docker/dockerfile:1.4
 
 # Versions
-FROM dunglas/frankenphp:1-alpine AS frankenphp_upstream
+FROM dunglas/frankenphp:1-php8.3-alpine AS frankenphp_upstream
 
 # The different stages of this Dockerfile are meant to be built into separate images
 # https://docs.docker.com/develop/develop-images/multistage-build/#stop-at-a-specific-build-stage
@@ -29,6 +29,9 @@ RUN set -eux; \
 		intl \
 		opcache \
 		zip \
+		gd \
+		pdo_pgsql \
+		redis \
 	;
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
