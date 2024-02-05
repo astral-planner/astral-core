@@ -58,4 +58,5 @@ jobs:
         run: docker compose exec -T php vendor/bin/pest
       -
         name: Doctrine Schema Validator
+        if: false #disabled validator until it work properly with timestamp/ulid
         run: docker compose exec -T php bin/console -e test doctrine:schema:validate
